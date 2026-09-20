@@ -31,8 +31,9 @@
   body{
     margin: 0; color: var(--ivory);
     background:
-      radial-gradient(110% 46% at 50% 0%, rgba(255,198,122,.13), rgba(0,0,0,0) 62%),
-      linear-gradient(180deg, #1c1a26 0%, #17161f 42%, #1d1a23 100%);
+      radial-gradient(110% 44% at 50% 0%, rgba(210,190,220,.07), rgba(0,0,0,0) 62%),
+      linear-gradient(180deg, #191a26 0%, #15151e 42%, #191922 100%);
+    transition: background 1.4s ease;
     background-attachment: scroll;
     font-family: var(--serif);
     -webkit-font-smoothing: antialiased;
@@ -510,6 +511,62 @@
   }
   footer p + p{ margin-top: 9px; }
   footer .cr{ margin-top: 18px; letter-spacing: .1em; color: #6d6656; }
+
+
+  /* ===================== 開館中のテーマ ===================== */
+  body.is-open{
+    --brass:      #f2cd74;
+    --brass-dim:  #d2a95c;
+    --lamp:       #ffeccb;
+    --ivory:      #fdf9f0;
+    --muted:      #cdc4af;
+    --muted-2:    #aca286;
+    --line:       rgba(255,208,140,.46);
+    --line-soft:  rgba(255,208,140,.26);
+    background:
+      radial-gradient(130% 56% at 50% 0%, rgba(255,192,108,.30), rgba(0,0,0,0) 62%),
+      radial-gradient(100% 44% at 50% 100%, rgba(255,176,96,.14), rgba(0,0,0,0) 62%),
+      linear-gradient(180deg, #2d2531 0%, #241e28 44%, #2a2229 100%);
+  }
+  .is-open .gate-card{
+    background: linear-gradient(180deg, rgba(255,215,154,.20), rgba(255,215,154,.07));
+    box-shadow: 0 0 70px rgba(255,199,120,.22), 0 18px 50px rgba(0,0,0,.4),
+                inset 0 0 70px rgba(255,205,135,.10);
+  }
+  .is-open .record,
+  .is-open .keep{ background: rgba(255,229,180,.10); }
+  .is-open .keep-sec{
+    background: linear-gradient(180deg, rgba(255,205,135,.12), rgba(255,205,135,.04));
+  }
+  .is-open .os-tab{ background: rgba(255,229,180,.07); }
+  .is-open .shelf-board{
+    background: linear-gradient(180deg, #6b5330, #33250f);
+    box-shadow: 0 0 34px rgba(255,199,120,.40), 0 8px 22px rgba(0,0,0,.55);
+  }
+  .is-open .book{ background: linear-gradient(90deg, rgba(0,0,0,.34), rgba(255,229,180,.20) 30%, rgba(0,0,0,.24)); }
+  .is-open .outro{
+    background: radial-gradient(95% 62% at 50% 110%, rgba(255,199,120,.24), rgba(0,0,0,0) 70%);
+  }
+  .is-open footer{ background: rgba(26,20,28,.45); }
+  .is-open .sec-h{ text-shadow: 0 0 26px rgba(255,199,120,.30); }
+  .is-open .vtitle{
+    color: #fffdf6;
+    text-shadow: 0 0 52px rgba(255,205,135,.62), 0 0 18px rgba(255,205,135,.38),
+                 0 3px 26px rgba(0,0,0,.85);
+  }
+  .is-open .lede{ color: #fbf4e6; }
+  .is-open .hours{
+    background: rgba(255,208,140,.20);
+    border-color: rgba(255,214,150,.75);
+    box-shadow: 0 0 34px rgba(255,199,120,.28), inset 0 0 26px rgba(255,205,135,.12);
+  }
+  .is-open .lamp{ transform: scale(1.06); }
+  .lamp{ transition: color .8s ease, filter .8s ease, transform .8s ease, opacity .8s ease; }
+  .gate-card, .record, .keep, .keep-sec, .shelf-board, .book, .outro, footer, .hours, .vtitle{
+    transition: background .9s ease, box-shadow .9s ease, border-color .9s ease,
+                color .9s ease, text-shadow .9s ease;
+  }
+  /* ========================================================== */
 
   @media (max-width: 560px){
     .hero{ padding: 46px 18px 38px; }
