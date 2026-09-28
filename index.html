@@ -634,17 +634,18 @@
     font-family: var(--sans); font-size: 11.5px; color: var(--muted-2); letter-spacing: .06em;
   }
   .locked svg{ flex: none; opacity: .9; }
-  .openmark{
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 7px 15px; border-radius: 2px;
-    border: 1px solid rgba(224,184,98,.55);
-    background: rgba(255,205,135,.12);
-    font-family: var(--sans); font-size: 11.5px; font-weight: 700;
-    letter-spacing: .12em; color: var(--lamp);
+  .n-open{
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 9px; border-radius: 2px;
+    border: 1px solid rgba(224,184,98,.62);
+    background: rgba(255,205,135,.16);
+    font-family: var(--sans); font-size: 10.5px; font-weight: 700;
+    letter-spacing: .1em; color: var(--lamp);
   }
-  .openmark .om-dot{
-    width: 7px; height: 7px; border-radius: 50%; background: #ffd79a;
-    box-shadow: 0 0 9px rgba(255,199,120,.95); flex: none;
+  .n-open[hidden]{ display: none; }
+  .n-open .om-dot{
+    width: 5px; height: 5px; border-radius: 50%; background: #ffd79a;
+    box-shadow: 0 0 8px rgba(255,199,120,.95); flex: none;
   }
   .night.is-locked .n-no{ color: #6b6456; }
   .night.is-locked .n-title{ color: #a9a091; }
@@ -1052,6 +1053,7 @@
         '<div class="n-head">' +
           '<span class="n-tag">' + (n.no === NIGHTS ? "LAST NIGHT" : "NIGHT " + pad(n.no)) + '</span>' +
           '<span class="n-date">' + n.label + '</span>' +
+          '<span class="n-open" hidden><span class="om-dot"></span>開架中</span>' +
         '</div>' +
         '<div class="n-title"></div>' +
         '<div class="n-act"></div>' +
@@ -1224,10 +1226,12 @@
           ? '<a class="n-a" href="' + n.url + '" target="_top" data-night="' + n.no + '">' + n.title + "</a>"
           : n.title;
         card.classList.toggle("is-locked", !live);
+        var mk = card.querySelector(".n-open");
+        if (mk) { mk.hidden = !live; }
         if (live && n.url) {
           act.innerHTML = '<a class="chip" href="' + n.url + '" target="_top" data-night="' + n.no + '">読む' + arrow + "</a>";
         } else if (live) {
-          act.innerHTML = '<span class="openmark"><span class="om-dot"></span>開架中</span>';
+          act.innerHTML = "";
         } else if (opened && !readable) {
           act.innerHTML = '<span class="locked">' + lockIcon + '開館中（21時〜24時）に読めます</span>';
         } else {
