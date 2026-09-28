@@ -274,7 +274,10 @@
     position: absolute; inset: -10% -14%; z-index: 0; pointer-events: none;
     background: radial-gradient(52% 46% at 50% 56%, rgba(255,196,110,.42), rgba(255,196,110,.10) 52%, rgba(255,196,110,0) 74%);
     opacity: .28; transition: opacity 1.8s ease;
+    animation: dooraura 3.2s ease-in-out infinite;
   }
+  @keyframes dooraura{ 0%,100%{ opacity: .16; } 50%{ opacity: .5; } }
+  .is-open .door-aura{ animation: none; }
   .is-open .door-aura{ opacity: 1; }
   .door-base{
     position: absolute; inset: 0; z-index: 1;
@@ -352,13 +355,34 @@
     68%    { filter: brightness(.97); }
   }
   @keyframes doorfade{ 0%{ opacity: .28; } 100%{ opacity: 1; } }
+  /* 閉館中：扉のすき間から漏れる光がゆっくり明滅 */
   .door-edge{
-    position: absolute; left: 26.2%; top: 13.2%; width: 47.8%; height: 76.9%;
-    z-index: 4; pointer-events: none; border-radius: 2px;
-    box-shadow: 0 0 20px 3px rgba(255,190,100,.42);
-    animation: dooredge 4.6s ease-in-out infinite;
+    position: absolute; inset: 0; z-index: 4; pointer-events: none;
+    animation: dooredge 3.2s ease-in-out infinite;
   }
-  @keyframes dooredge{ 0%,100%{ opacity: .45; } 50%{ opacity: 1; } }
+  .de-l, .de-r{
+    position: absolute; top: 13.4%; height: 76.5%; width: 5px;
+    background: linear-gradient(90deg,
+      rgba(255,206,140,0) 0%, rgba(255,235,190,.98) 48%, rgba(255,206,140,0) 100%);
+    box-shadow: 0 0 14px 4px rgba(255,186,96,.55);
+    filter: blur(1.6px);
+  }
+  .de-l{ left: calc(27.05% - 2.5px); }
+  .de-r{ left: calc(73.25% - 2.5px); }
+  .de-b{
+    position: absolute; left: 26.6%; width: 47.2%;
+    top: calc(89.3% - 3.5px); height: 7px;
+    background: linear-gradient(180deg,
+      rgba(255,206,140,0) 0%, rgba(255,240,205,1) 44%, rgba(255,186,96,0) 100%);
+    box-shadow: 0 0 20px 6px rgba(255,186,96,.55);
+    filter: blur(2.2px);
+  }
+  .de-glow{
+    position: absolute; left: 22%; right: 22%; bottom: 4%; height: 26%;
+    background: radial-gradient(60% 100% at 50% 100%, rgba(255,196,110,.55), rgba(255,196,110,0) 72%);
+    filter: blur(5px);
+  }
+  @keyframes dooredge{ 0%,100%{ opacity: .22; } 50%{ opacity: 1; } }
   .is-open .door-edge{ animation: none; opacity: 0; }
   .door-spill{
     position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%);
@@ -377,7 +401,8 @@
   .is-open .dc-closed{ display: none; }
   .is-open .dc-open{ display: inline; }
   @media (prefers-reduced-motion: reduce){
-    .door-edge{ animation: none; }
+    .door-edge{ animation: none; opacity: .75; }
+    .door-aura{ animation: none; }
     .door-panel{ transition: none; }
     .is-open .doorwrap.armed .door-panel{ transform: rotateY(-64deg); filter: brightness(.62); }
     .is-open .doorwrap.armed .door-light{ opacity: 1; }
@@ -800,7 +825,10 @@
         <div class="door-base"></div>
         <div class="door-light"></div>
         <div class="door-panel"></div>
-        <div class="door-edge"></div>
+        <div class="door-edge">
+          <span class="de-glow"></span>
+          <span class="de-l"></span><span class="de-r"></span><span class="de-b"></span>
+        </div>
       </div>
       <div class="door-spill"></div>
       <p class="door-cap"><span class="dc-closed">扉は、21時にひらきます</span><span class="dc-open">扉が、ひらきました</span></p>
