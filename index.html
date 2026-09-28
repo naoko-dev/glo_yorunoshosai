@@ -310,10 +310,48 @@
     filter: brightness(.96);
   }
   .is-open .door-panel{
-    transform: rotateY(-62deg);
+    transform: rotateY(-64deg);
     filter: brightness(.62) contrast(1.05);
     box-shadow: 14px 0 34px rgba(0,0,0,.5);
   }
+  /* JSが効いているときは、画面に入るたびに「開く」動きを再生する */
+  .is-open .doorwrap.armed .door-panel{ transform: rotateY(0deg); filter: brightness(.96); }
+  .is-open .doorwrap.armed .door-light{ opacity: 0; }
+  .is-open .doorwrap.armed .door-spill{ opacity: .3; }
+  .is-open .doorwrap.armed .door-aura{ opacity: .28; }
+  .is-open .doorwrap.armed.play .door-panel{
+    animation: dooropen 1.5s cubic-bezier(.32,.04,.16,1) .25s forwards,
+               doorsway 5.5s ease-in-out 1.9s infinite;
+  }
+  .is-open .doorwrap.armed.play .door-light{
+    animation: doorlight 1.5s ease-out .25s forwards,
+               doorflicker 6.5s ease-in-out 1.9s infinite;
+  }
+  .is-open .doorwrap.armed.play .door-spill,
+  .is-open .doorwrap.armed.play .door-aura{
+    animation: doorfade 1.6s ease-out .25s forwards;
+  }
+  @keyframes dooropen{
+    0%   { transform: rotateY(0deg);   filter: brightness(.96); }
+    55%  { transform: rotateY(-72deg); }
+    78%  { transform: rotateY(-58deg); }
+    100% { transform: rotateY(-64deg); filter: brightness(.62) contrast(1.05); }
+  }
+  @keyframes doorsway{
+    0%,100%{ transform: rotateY(-64deg); }
+    50%    { transform: rotateY(-57deg); }
+  }
+  @keyframes doorlight{
+    0%   { opacity: 0; }
+    30%  { opacity: .55; }
+    100% { opacity: 1; }
+  }
+  @keyframes doorflicker{
+    0%,100%{ filter: brightness(1); }
+    42%    { filter: brightness(1.09); }
+    68%    { filter: brightness(.97); }
+  }
+  @keyframes doorfade{ 0%{ opacity: .28; } 100%{ opacity: 1; } }
   .door-edge{
     position: absolute; left: 26.2%; top: 13.2%; width: 47.8%; height: 76.9%;
     z-index: 4; pointer-events: none; border-radius: 2px;
@@ -341,6 +379,12 @@
   @media (prefers-reduced-motion: reduce){
     .door-edge{ animation: none; }
     .door-panel{ transition: none; }
+    .is-open .doorwrap.armed .door-panel{ transform: rotateY(-64deg); filter: brightness(.62); }
+    .is-open .doorwrap.armed .door-light{ opacity: 1; }
+    .is-open .doorwrap.armed.play .door-panel,
+    .is-open .doorwrap.armed.play .door-light,
+    .is-open .doorwrap.armed.play .door-spill,
+    .is-open .doorwrap.armed.play .door-aura{ animation: none; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -1224,6 +1268,26 @@
       }
     }
   }
+
+  /* ---------- 扉：画面に入るたびに開く ---------- */
+  (function () {
+    var dw = document.querySelector(".doorwrap");
+    if (!dw) { return; }
+    dw.classList.add("armed");
+    var replay = function () {
+      dw.classList.remove("play");
+      void dw.offsetWidth;          // アニメーションを巻き戻す
+      dw.classList.add("play");
+    };
+    if (!("IntersectionObserver" in window)) { dw.classList.add("play"); return; }
+    var io = new IntersectionObserver(function (es) {
+      for (var i = 0; i < es.length; i++) {
+        if (es[i].isIntersecting) { replay(); }
+        else { dw.classList.remove("play"); }
+      }
+    }, { threshold: 0.35 });
+    io.observe(dw);
+  })();
 
   render();
   setInterval(render, 1000);
