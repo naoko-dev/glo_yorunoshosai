@@ -196,6 +196,11 @@
   }
   function pad(v) { return v < 10 ? "0" + v : String(v); }
 
+  // ?fbreset=1 を付けて開くと、この端末の「送信済み」の記録を消して試し直せます
+  if (/[?&]fbreset=1/.test(qs)) {
+    try { store.removeItem(FB_KEY); store.removeItem(DEMO_KEY); } catch (e) {}
+  }
+
   var fbMem = lsGet(FB_KEY, null) || {};
   if (!fbMem.id) { fbMem.id = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
   if (!fbMem.sent) { fbMem.sent = {}; }
