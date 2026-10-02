@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="夜の書斎 — 感想を送る">
+<title>感想を送る｜夜の書斎</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --panel:      #1c2130;
+    --panel-2:    #222839;
+    --brass:      #e0b862;
+    --brass-dim:  #b89550;
+    --lamp:       #ffe0af;
+    --ivory:      #f4eee2;
+    --muted:      #b0a897;
+    --muted-2:    #948b79;
+    --line:       rgba(224,184,98,.32);
+    --line-soft:  rgba(224,184,98,.18);
+    --serif: "Noto Serif JP", "Yu Mincho", "YuMincho", serif;
+    --sans: "Noto Sans JP", sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  html, body{ margin: 0; padding: 0; }
+  body{
+    background: var(--panel);
+    color: var(--ivory);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap{ padding: 22px 20px 26px; max-width: 560px; margin: 0 auto; }
+
+  .testbar{
+    background: #ffe9a8; color: #3b2f10;
+    font-size: 11.5px; line-height: 1.6; text-align: center;
+    padding: 7px 12px; letter-spacing: .03em;
+  }
+
+  .eyebrow{
+    font-size: 10.5px; letter-spacing: .3em; color: var(--brass-dim);
+    font-weight: 700; margin-bottom: 14px;
+  }
+  h1{
+    font-family: var(--serif); font-weight: 600;
+    font-size: clamp(17px, 4.8vw, 20px); line-height: 1.7;
+    letter-spacing: .04em; color: var(--lamp);
+    margin: 0 0 12px;
+  }
+  .lead{
+    font-size: 12.5px; line-height: 1.95; color: var(--muted);
+    letter-spacing: .03em; margin: 0 0 20px;
+  }
+
+  .opts{ display: flex; flex-wrap: wrap; gap: 9px; }
+  .opt{
+    padding: 12px 16px; border-radius: 22px; cursor: pointer;
+    background: rgba(255,224,175,.06);
+    border: 1px solid rgba(224,184,98,.45);
+    color: var(--ivory);
+    font-family: var(--sans); font-size: 13.5px; line-height: 1.45;
+    letter-spacing: .03em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .opt:hover, .opt:focus-visible{ background: rgba(255,205,135,.16); }
+  .opt[disabled]{ opacity: .45; cursor: default; }
+
+  .done{
+    font-family: var(--serif); font-size: 15px; line-height: 1.8;
+    color: var(--lamp); letter-spacing: .04em; margin: 0 0 14px;
+  }
+  .q2{ font-size: 13px; line-height: 1.85; color: var(--ivory); margin: 0 0 10px; letter-spacing: .03em; }
+  textarea{
+    width: 100%; display: block;
+    background: rgba(0,0,0,.26); color: var(--ivory);
+    border: 1px solid var(--line-soft); border-radius: 4px;
+    padding: 11px 12px; font-family: var(--sans); font-size: 16px; line-height: 1.75;
+    resize: vertical; letter-spacing: .02em;
+  }
+  textarea:focus{ outline: none; border-color: var(--line); }
+  .row{ display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+  .count{ font-size: 11.5px; color: var(--muted-2); font-variant-numeric: tabular-nums; }
+  .send{
+    padding: 11px 26px; border-radius: 22px; cursor: pointer; border: 0;
+    background: linear-gradient(180deg, #f0cf8e, #c69a44);
+    color: #22160a; font-family: var(--sans); font-weight: 700; font-size: 13.5px;
+    letter-spacing: .06em;
+  }
+  .send[disabled]{ opacity: .4; cursor: default; }
+
+  .note{
+    font-size: 11px; line-height: 1.9; color: var(--muted-2);
+    letter-spacing: .02em; margin: 16px 0 0;
+  }
+  .err{ font-size: 12px; line-height: 1.8; color: #ffb9a8; margin: 14px 0 0; }
+
+  .others{ margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line-soft); }
+  .others h2{
+    font-family: var(--serif); font-weight: 500;
+    font-size: 12.5px; letter-spacing: .14em; color: var(--brass-dim);
+    margin: 0 0 11px;
+  }
+  .chips{ display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip{
+    padding: 6px 12px; border-radius: 14px 14px 14px 4px;
+    font-size: 12px; line-height: 1.65; letter-spacing: .02em;
+    background: rgba(255,224,175,.07);
+    border: 1px solid rgba(224,184,98,.3);
+    color: var(--lamp);
+  }
+  .chip .n{ margin-left: 6px; font-size: 10.5px; color: var(--brass-dim); }
+
+  .backlink{
+    display: inline-block; margin-top: 20px;
+    font-size: 12.5px; color: var(--brass); letter-spacing: .03em;
+    text-decoration: none; border-bottom: 1px solid var(--line-soft);
+    padding-bottom: 2px;
+  }
+
+  .loading{ font-size: 12.5px; color: var(--muted-2); letter-spacing: .05em; padding: 10px 0; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="app"><div class="wrap"><p class="loading">読み込んでいます…</p></div></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ======================================================================
+     ▼▼ 編集するのはこのブロックだけです ▼▼
+     ====================================================================== */
+
+  // Google Apps Script のウェブアプリURL（…/exec で終わるもの）
+  // 空のままにすると「お試し動作」になり、送った感想はこの端末の中だけに保存されます。
+  var FEEDBACK_API = "https://script.google.com/macros/s/AKfycbznxwK5B4BgUP06mG3Igtxh9IVrr570rSIBy0nfJeciCkfkU8BpaBi6e7NDVXwdE5dKxg/exec";
+
+  // 選択肢（スプレッドシートから取れたときは、そちらが優先されます）
+  var CHOICES = [
+    "胸が高鳴った",
+    "続きが読みたい",
+    "ふたりの関係にひかれた",
+    "描写が濃くてよかった",
+    "思ったより大胆だった",
+    "この著者の作品をもっと読みたい"
+  ];
+
+  // 夜の書斎（目録）のページURL
+  var SHOSAI_URL = "https://renaissance-media.jp/articles/-/27924";
+
+  var TEXT_MAX = 60;   // ひとことの上限文字数
+
+  /* ======================================================================
+     ▲▲ ここまで ▲▲
+     ====================================================================== */
+
+  var NIGHTS = 10;
+  var DEMO = !FEEDBACK_API;
+  var FB_KEY   = "glo.yorunoshosai.fb.v1";
+  var DEMO_KEY = "glo.yorunoshosai.fbdemo.v1";
+
+  var qs = location.search;
+  var night = parseInt((/[?&]night=(\d+)/.exec(qs) || [])[1] || "1", 10);
+  if (!(night >= 1 && night <= NIGHTS)) { night = 1; }
+  var TEST = /[?&]test=1/.test(qs);
+
+  /* ---------- 保存場所（iPhoneなどで使えないことがあるので三段構え） ---------- */
+  var memStore = {};
+  var store = (function () {
+    function usable(s) {
+      try { var k = "__t"; s.setItem(k, "1"); s.removeItem(k); return true; } catch (e) { return false; }
+    }
+    try { if (window.localStorage && usable(window.localStorage)) { return window.localStorage; } } catch (e) {}
+    try { if (window.sessionStorage && usable(window.sessionStorage)) { return window.sessionStorage; } } catch (e) {}
+    return {
+      getItem: function (k) { return Object.prototype.hasOwnProperty.call(memStore, k) ? memStore[k] : null; },
+      setItem: function (k, v) { memStore[k] = String(v); },
+      removeItem: function (k) { delete memStore[k]; }
+    };
+  })();
+  function lsGet(k, d) { try { var r = store.getItem(k); return r ? JSON.parse(r) : d; } catch (e) { return d; } }
+  function lsSet(k, v) { try { store.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  function esc(v) {
+    return String(v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function pad(v) { return v < 10 ? "0" + v : String(v); }
+
+  var fbMem = lsGet(FB_KEY, null) || {};
+  if (!fbMem.id) { fbMem.id = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+  if (!fbMem.sent) { fbMem.sent = {}; }
+  lsSet(FB_KEY, fbMem);
+  var sent = fbMem.sent[night] || (fbMem.sent[night] = {});
+
+  function track(name, params) {
+    try { if (window.gtag) { window.gtag("event", name, params || {}); } } catch (e) {}
+  }
+
+  /* ---------- 通信 ---------- */
+  var others = { choices: [], texts: [] };
+
+  function loadOthers() {
+    if (DEMO) {
+      var rows = lsGet(DEMO_KEY, []), seen = {}, cnt = {}, texts = [];
+      rows.forEach(function (r) {
+        if (r.night !== night) { return; }
+        if (r.choice) {
+          var k = String(r.id);
+          if (seen[k]) { return; }   // 1つの端末につき1作品1回だけ
+          seen[k] = 1;
+          cnt[r.choice] = (cnt[r.choice] || 0) + 1;
+        }
+        if (r.text) { texts.push(r.text); }
+      });
+      others = {
+        choices: CHOICES.filter(function (c) { return cnt[c]; }).map(function (c) { return { t: c, c: cnt[c] }; }),
+        texts: texts.slice(-6).reverse()
+      };
+      return Promise.resolve();
+    }
+    return fetch(FEEDBACK_API + (FEEDBACK_API.indexOf("?") >= 0 ? "&" : "?") + "night=" + night)
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (j && j.choices && j.choices.length) { CHOICES = j.choices; }
+        var d = (j && j.nights && j.nights[night]) || null;
+        others = { choices: (d && d.choices) || [], texts: (d && d.texts) || [] };
+      })
+      .catch(function () { /* 読めなくても画面は出す */ });
+  }
+
+  function send(choice, text) {
+    var body = { night: night, choice: choice || "", text: text || "", id: fbMem.id };
+    if (DEMO) {
+      var rows = lsGet(DEMO_KEY, []);
+      rows.push(body);
+      lsSet(DEMO_KEY, rows);
+      return new Promise(function (res) { setTimeout(res, 300); });
+    }
+    // 別ドメインのため、返事を読まない形で送ります
+    return fetch(FEEDBACK_API, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(body)
+    });
+  }
+
+  /* ---------- 画面 ---------- */
+  var app = document.getElementById("app");
+
+  function othersHtml() {
+    var list = [];
+    others.choices.forEach(function (c) {
+      list.push('<span class="chip">' + esc(c.t) + (c.c >= 2 ? '<span class="n">' + c.c + "人</span>" : "") + "</span>");
+    });
+    others.texts.slice(0, 6).forEach(function (t) {
+      list.push('<span class="chip">「' + esc(t) + "」</span>");
+    });
+    if (!list.length) { return ""; }
+    return '<div class="others"><h2>ほかの皆様の感想</h2><div class="chips">' + list.join("") + "</div></div>";
+  }
+
+  var NOTE_TEXT =
+    "いただいたひとことは、編集部で確認したうえで、夜の書斎の目録に掲載させていただくことがあります。" +
+    "お名前やご連絡先は送られません。個人を特定できる内容や、特定の方への中傷が含まれる場合は掲載いたしません。";
+
+  function head() {
+    return (TEST ? '<div class="testbar">【テスト表示】読者向けの通常URLには、この帯は出ません。</div>' : "") +
+      '<div class="wrap"><div class="eyebrow">' + (night === NIGHTS ? "LAST NIGHT" : "NIGHT " + pad(night)) + "</div>";
+  }
+  function backlink() {
+    return '<a class="backlink" href="' + SHOSAI_URL + '" target="_top">夜の書斎（目録）で、浮かんでいる感想を見る</a>';
+  }
+
+  function renderChoice() {
+    app.innerHTML = head() +
+      "<h1>この夜の一冊は、いかがでしたか。</h1>" +
+      '<p class="lead">ひとつ選ぶと、その場で送られます。お名前やメールアドレスは送られません。</p>' +
+      '<div class="opts">' + CHOICES.map(function (c, i) {
+        return '<button type="button" class="opt" data-i="' + i + '">' + esc(c) + "</button>";
+      }).join("") + "</div>" +
+      othersHtml() + "</div>";
+  }
+
+  function renderText(justSent) {
+    app.innerHTML = head() +
+      (justSent
+        ? '<p class="done">届きました。ありがとうございます。</p>'
+        : "<h1>感想を送りました。</h1>") +
+      '<p class="q2">よろしければ、ひとこと添えてください（任意・' + TEXT_MAX + "字まで）。</p>" +
+      '<textarea maxlength="' + TEXT_MAX + '" rows="3" aria-label="ひとこと"></textarea>' +
+      '<div class="row"><span class="count">0 / ' + TEXT_MAX + '</span>' +
+      '<button type="button" class="send" disabled>送る</button></div>' +
+      '<p class="note">' + NOTE_TEXT + "<br>送らずに戻るときは、下の「閉じる」を押してください。</p>" +
+      othersHtml() + backlink() + "</div>";
+  }
+
+  function renderDone(justSent) {
+    app.innerHTML = head() +
+      "<h1>" + (justSent ? "ひとことも届きました。<br>ありがとうございます。" : "この夜の感想は、送信済みです。") + "</h1>" +
+      '<p class="lead">下の「閉じる」を押すと、記事に戻ります。</p>' +
+      othersHtml() + backlink() + "</div>";
+  }
+
+  function render(justSent) {
+    if (!sent.choice) { renderChoice(); }
+    else if (!sent.text) { renderText(justSent); }
+    else { renderDone(justSent); }
+  }
+
+  app.addEventListener("click", function (ev) {
+    var t = ev.target;
+
+    var opt = t.closest ? t.closest(".opt") : null;
+    if (opt && !sent.choice) {
+      var all = app.querySelectorAll(".opt");
+      for (var i = 0; i < all.length; i++) { all[i].disabled = true; }
+      var choice = CHOICES[parseInt(opt.getAttribute("data-i"), 10)];
+      send(choice, "").then(function () {
+        sent.choice = choice; lsSet(FB_KEY, fbMem);
+        track("kansou_choice", { night: night });
+        // 自分の分をその場で足す
+        var hit = false;
+        others.choices.forEach(function (c) { if (c.t === choice) { c.c += 1; hit = true; } });
+        if (!hit) { others.choices.push({ t: choice, c: 1 }); }
+        renderText(true);
+      }).catch(function () {
+        for (var j = 0; j < all.length; j++) { all[j].disabled = false; }
+        app.querySelector(".opts").insertAdjacentHTML("afterend",
+          '<p class="err">うまく送れませんでした。少し時間をおいて、もう一度お試しください。</p>');
+      });
+      return;
+    }
+
+    var btn = t.closest ? t.closest(".send") : null;
+    if (btn && !sent.text) {
+      var ta = app.querySelector("textarea");
+      var text = (ta.value || "").replace(/\s+/g, " ").trim().slice(0, TEXT_MAX);
+      if (!text) { return; }
+      btn.disabled = true; ta.disabled = true;
+      send("", text).then(function () {
+        sent.text = true; lsSet(FB_KEY, fbMem);
+        track("kansou_text", { night: night });
+        renderDone(true);
+      }).catch(function () {
+        btn.disabled = false; ta.disabled = false;
+        app.querySelector(".row").insertAdjacentHTML("afterend",
+          '<p class="err">うまく送れませんでした。少し時間をおいて、もう一度お試しください。</p>');
+      });
+    }
+  });
+
+  app.addEventListener("input", function (ev) {
+    if (ev.target.tagName !== "TEXTAREA") { return; }
+    var len = ev.target.value.trim().length;
+    app.querySelector(".count").textContent = Math.min(len, TEXT_MAX) + " / " + TEXT_MAX;
+    app.querySelector(".send").disabled = len === 0;
+  });
+
+  loadOthers().then(function () { render(false); });
+  track("kansou_open", { night: night });
+})();
+</script>
+</body>
+</html>
