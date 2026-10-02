@@ -266,7 +266,7 @@
   function othersHtml() {
     var list = [];
     others.choices.forEach(function (c) {
-      list.push('<span class="chip">' + esc(c.t) + (c.c >= 2 ? '<span class="n">' + c.c + "人</span>" : "") + "</span>");
+      list.push('<span class="chip">' + esc(c.t) + (c.c >= 2 ? '<span class="n">×' + c.c + "</span>" : "") + "</span>");
     });
     others.texts.slice(0, 6).forEach(function (t) {
       list.push('<span class="chip">「' + esc(t) + "」</span>");
